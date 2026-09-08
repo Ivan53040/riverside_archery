@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Riverside Archery</title>
+<link rel="icon" href="data:,">
+<meta name="description" content="Draw, aim and release with your hands. A Unity 3D archery challenge by the river.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="game" aria-label="Riverside Archery game">
+  <canvas id="unity-canvas" tabindex="-1" aria-label="Unity 3D archery range"></canvas>
+  <div class="shade"></div>
+  <header class="topbar">
+    <div class="brand"><span class="target-icon">◎<i>↗</i></span><div><small>RIVERSIDE SPORTS CLUB</small><h1>ARCHERY<span>FIND YOUR FOCUS</span></h1></div></div>
+    <div class="timer panel"><span class="clock-icon">◷</span><div><small id="time-label">TIME LEFT</small><strong id="time">01:00</strong></div></div>
+    <div class="arrow-card panel"><small>ARROWS REMAINING</small><div><strong id="arrows">5</strong><span id="arrow-total"> / 5</span><span id="arrow-icons">↗ ↗ ↗ ↗ ↗</span></div></div>
+  </header>
+  <aside class="scoreboard panel"><span class="avatar">◉</span><div><small>YOUR SCORE</small><strong id="score">00</strong></div><div class="best"><small>BEST</small><b id="best">0</b></div></aside>
+  <div class="location"><span></span> BRISBANE RIVERSIDE <i id="range-status">EASY · CENTRE TARGET · 12 M</i></div>
+  <div id="reticle" hidden><i></i><b></b><span></span></div>
+  <div id="shot-feedback" role="status" aria-live="polite"></div>
+  <aside class="testcam panel" id="testcam">
+    <div class="cam-heading"><span><i id="cam-dot"></i> TEST CAM</span><b id="camera-state">Not connected</b></div>
+    <div id="camera-viewport"><video id="camera-video" autoplay muted playsinline></video><canvas id="camera-overlay"></canvas><div id="camera-placeholder"><span>✋</span>About 1 m from the camera<br><small>Keep both hands in view</small></div></div>
+    <div class="hand-status"><span id="left-status"><i></i> LEFT · BOW</span><span id="right-status"><i></i> RIGHT · STRING</span></div>
+    <div class="cam-help" id="camera-hint">Both hands visible · Good light · About 1 m</div>
+  </aside>
+  <footer class="instructions panel"><div><b id="step-draw">Draw</b><span>•</span><b id="step-aim">Aim</b><span>•</span><b id="step-release">Release</b></div><p id="instruction">Left fist holds the bow. Right fist draws the string.</p><div class="draw-track"><i id="draw-fill"></i></div></footer>
+  <div class="corner-controls"><div id="tracking-pill" class="panel"><i></i><span>Waiting for hands</span></div><button id="settings-button" aria-label="Camera and calibration settings" title="Camera and calibration settings">⚙</button><button id="fullscreen" aria-label="Toggle fullscreen" title="Toggle fullscreen">⛶</button></div>
+  <section id="welcome" class="modal-layer">
+    <div class="welcome-card panel">
+      <div class="eyebrow">YOUR HANDS. YOUR SHOT.</div>
+      <h2>Draw. Aim.<br><em>Make it count.</em></h2>
+      <p class="intro-copy">One target by the river. Learn the gesture, then choose the challenge that suits you.</p>
+      <div class="rules"><span><b>4</b> MODES</span><span><b>2</b> HANDS</span><span><b>1</b> TARGET</span></div>
+      <ol class="howto"><li><span>01</span> Bring two fists close together, keeping both visible.</li><li><span>02</span> Push the left forward. Draw the right beside your face.</li><li><span>03</span> Hold, aim with the left, then relax the right fingers.</li></ol>
+      <button id="start" class="primary" disabled>Loading game…</button>
+      <div class="loading-track"><i id="loading-fill"></i></div>
+      <p id="load-status" class="fineprint">Preparing the 3D range</p>
+      <p class="privacy">Camera images are processed only in your browser.</p>
+    </div>
+  </section>
+  <section id="difficulty" class="modal-layer" hidden><div class="difficulty-card panel">
+    <div class="eyebrow">CHOOSE YOUR CHALLENGE</div><h2>Select difficulty</h2>
+    <p class="difficulty-intro">Your camera is ready. You can change modes after every round.</p>
+    <div class="mode-grid">
+      <button class="mode-option training" data-mode="Training"><span class="mode-icon">◎</span><span><b>Training</b><small>STATIONARY TARGET</small></span><strong>120 SEC</strong><em>∞ ARROWS</em></button>
+      <button class="mode-option easy" data-mode="Easy"><span class="mode-icon">◉</span><span><b>Easy</b><small>STATIONARY TARGET</small></span><strong>120 SEC</strong><em>5 ARROWS</em></button>
+      <button class="mode-option medium" data-mode="Medium"><span class="mode-icon">↔</span><span><b>Medium</b><small>MOVING TARGET</small></span><strong>90 SEC</strong><em>5 ARROWS</em></button>
+      <button class="mode-option hard" data-mode="Hard"><span class="mode-icon">✦</span><span><b>Hard</b><small>MOVES · RESPAWNS ON HIT</small></span><strong>60 SEC</strong><em>5 ARROWS</em></button>
+    </div>
+    <p class="fineprint">Next: complete calibration, then bring your fists together to start.</p>
+  </div></section>
+  <section id="calibration" class="tutorial-layer" hidden><div class="tutorial-card panel">
+    <div class="eyebrow">LEARN YOUR SHOT</div>
+    <div class="calibration-steps" aria-label="Tutorial steps"><span data-stage="Stance">01</span><span data-stage="Hands">02</span><span data-stage="Draw">03</span><span data-stage="Return">04</span><span data-stage="Practice">05</span></div>
+    <div id="tutorial-art" class="tutorial-art" role="img" aria-label="Stand at an angle to the webcam"><span id="stance-badge">≈ 30°</span></div>
+    <div class="tutorial-legend"><span>LEFT · BOW</span><span>RIGHT · STRING</span></div>
+    <h2 id="calibration-title">Turn about 30°</h2>
+    <p id="calibration-copy" aria-live="polite">Stand about 1 m from the camera. Turn slightly so both hands stay visible.</p>
+    <div class="calibration-track"><i id="calibration-fill"></i></div><strong id="countdown"></strong>
+    <button id="tutorial-ready" class="primary">I'm ready</button>
+    <p id="tutorial-note" class="fineprint">Unlimited practice · No timer · No arrows used</p>
+  </div></section>
+  <section id="result" class="modal-layer" hidden><div class="result-card panel"><div class="eyebrow"><span id="result-mode">EASY</span> COMPLETE</div><h2>Every arrow counts.</h2><div class="final-score"><strong id="final-score">0</strong><span id="final-total">/ 50</span></div><div class="result-stats"><div><small>HITS</small><b id="final-hits">0 / 5</b></div><div><small>MODE BEST</small><b id="final-best">0</b></div></div><button id="again" class="primary">Choose next mode <span>↗</span></button><p class="fineprint">Your camera and calibration are ready to reuse.</p></div></section>
+  <section id="settings" class="modal-layer" hidden><div class="settings-card panel"><button id="close-settings" class="close" aria-label="Close settings">×</button><div class="eyebrow">CAMERA SETUP</div><h2>Camera &amp; stance</h2><label for="camera-select">Choose a camera</label><select id="camera-select"><option value="">System default camera</option></select><label class="check"><input id="swap-hands" type="checkbox"> Swap left and right labels</label><p class="fineprint">Use only if the preview labels are reversed. Reconnect after choosing a different camera.</p><button id="retry-camera" class="primary">Connect / reconnect camera</button><button id="recalibrate" class="secondary" disabled>Recalibrate stance</button><p class="fineprint">Recalibrate after moving yourself or the camera. Your current score and remaining time are kept.</p><p id="camera-error" role="alert"></p></div></section>
+  <div id="paused-banner" class="panel" hidden role="status">Paused. Bring your fists together and keep them visible.</div>
+  <div id="qa-controls" class="panel" hidden><strong>QA · Synthetic hands</strong><button id="qa-start">Start synthetic session</button><button id="qa-grip">Grip variation: OFF</button><button id="qa-neutral">Fists together</button><button id="qa-draw">Draw</button><button id="qa-release">Relax fingers</button><button id="qa-drop">Hide hands</button><button id="qa-time">Time up</button><small>Click the range to move the synthetic left fist.</small></div>
+</main>
+<script src="Build/WebGL.loader.js"></script>
+<script type="module" src="app.mjs"></script>
+<script>
+window.archeryUnityConfig={
+ dataUrl:"Build/WebGL.data.unityweb",
+ frameworkUrl:"Build/WebGL.framework.js.unityweb",
+ codeUrl:"Build/WebGL.wasm.unityweb",
+ streamingAssetsUrl:"StreamingAssets",
+ companyName:"Riverside Sports",
+ productName:"Riverside Archery",
+ productVersion:"1.4.0"
+};
+window.dispatchEvent(new Event("archery-config"));
+</script>
+</body></html>
+
