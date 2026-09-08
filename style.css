@@ -55,3 +55,50 @@ small{display:block;color:var(--muted);font-size:10px;letter-spacing:1.5px}.time
 .difficulty-card{width:min(760px,calc(100vw - 44px));padding:30px 34px 25px;border-top:3px solid var(--teal);border-radius:6px}.difficulty-card h2{font-size:34px}.difficulty-intro{margin:8px 0 22px;color:#acc7d5;font-size:12px}.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mode-option{position:relative;display:grid;grid-template-columns:48px 1fr auto;grid-template-rows:auto auto;align-items:center;gap:2px 12px;padding:17px 16px;text-align:left;color:var(--ivory);background:linear-gradient(120deg,#0e3045e8,#092236f2);border:1px solid #54829980;border-radius:5px;transition:transform .15s,border-color .15s,background .15s}.mode-option:hover,.mode-option:focus-visible{transform:translateY(-2px);border-color:var(--gold);background:linear-gradient(120deg,#154558,#0d2d42);outline:none}.mode-option .mode-icon{grid-row:1 / 3;display:grid;place-items:center;width:43px;height:43px;border:1px solid var(--teal);border-radius:50%;color:var(--teal);font-size:24px}.mode-option>span:nth-child(2){grid-row:1 / 3}.mode-option b{display:block;font-size:19px;letter-spacing:.5px}.mode-option small{margin-top:5px;font-size:8px;color:#88aaba}.mode-option>strong{align-self:end;font-size:12px;color:var(--gold);letter-spacing:1px}.mode-option>em{align-self:start;font-style:normal;font-size:9px;color:#9ebcca;letter-spacing:1px}.mode-option.training{border-color:#31d6ba80}.mode-option.hard{border-color:#e38b5980}.mode-option.hard .mode-icon{border-color:#ef9360;color:#ef9360}
 @media(max-width:720px){.difficulty-card{padding:22px}.mode-grid{grid-template-columns:1fr}.mode-option{padding:12px 14px}.difficulty-card h2{font-size:27px}.difficulty-intro{margin-bottom:14px}}
 @media(max-height:700px) and (min-width:721px){.difficulty-card{padding:18px 25px}.difficulty-card .eyebrow{margin-bottom:7px}.difficulty-card h2{font-size:27px}.difficulty-intro{margin:5px 0 12px}.mode-option{padding:11px 13px}.difficulty-card>.fineprint{margin-top:7px}}
+
+
+/* Responsive shell: keep the game usable from compact landscape phones through desktop. */
+@supports (height:100dvh){html,body,#game{height:100dvh}}
+#game{min-height:0}
+.modal-layer{overflow:auto;overscroll-behavior:contain}
+.welcome-card,.difficulty-card,.compact-card,.result-card,.settings-card{max-width:100%;max-height:calc(100vh - 24px);overflow-y:auto;overscroll-behavior:contain}
+@supports (height:100dvh){.welcome-card,.difficulty-card,.compact-card,.result-card,.settings-card{max-height:calc(100dvh - 24px)}}
+.tutorial-card .primary{min-height:44px}
+.close{display:grid;place-items:center;width:44px;height:44px;right:4px;top:4px}
+.settings-card .check{min-height:44px;cursor:pointer}
+
+@media(max-width:600px){
+ .topbar{left:10px;right:10px;top:10px;gap:8px}
+ .brand{max-width:calc(100% - 120px);padding:7px 10px 7px 8px;border-left-width:3px;gap:7px}
+ .brand small{display:none}.target-icon{font-size:36px}.target-icon i{font-size:20px;right:-4px}
+ h1{font-size:18px;letter-spacing:0}h1 span{font-size:7px;letter-spacing:2px;margin-top:3px}
+ .arrow-card{min-width:112px;width:112px;padding:8px 9px}.arrow-card small{font-size:7px;letter-spacing:1px}.arrow-card strong{font-size:26px}.arrow-card span{font-size:16px}
+ .timer{top:61px;padding:5px 12px;gap:6px}.timer strong{font-size:24px}.clock-icon{font-size:24px}.timer small{font-size:7px;margin-bottom:1px}
+ .scoreboard{left:10px;top:126px;min-width:166px;padding:7px 9px;gap:7px}.avatar{width:32px;height:32px;font-size:22px}.scoreboard strong{font-size:25px}.scoreboard small{font-size:7px}.best{padding-left:8px}.best b{font-size:15px;margin-top:3px}
+ .location{right:10px;top:127px;width:174px;text-align:right;font-size:7px;letter-spacing:1px;line-height:1.25}.location i{font-size:8px;letter-spacing:1.2px;margin-top:4px}
+ .testcam{left:10px;bottom:10px;width:110px;padding:6px}.cam-heading{font-size:7px;letter-spacing:.6px;margin-bottom:5px}.cam-heading b{font-size:7px;max-width:52px}.hand-status{font-size:7px;margin-top:5px}.cam-help{display:none}
+ .instructions{left:130px;right:60px;bottom:10px;transform:none;width:auto;max-width:none;padding:8px 7px 7px}.instructions>div:first-child{gap:5px}.instructions b{font-size:13px;letter-spacing:0}.instructions span{font-size:9px}.instructions p{font-size:8px;line-height:1.35;min-height:0;margin:5px 0 6px}
+ .corner-controls{right:10px;bottom:10px;display:grid;grid-template-columns:40px;gap:4px}.corner-controls button,#tracking-pill{width:40px;height:40px;padding:0;justify-content:center}.corner-controls button{font-size:19px}#tracking-pill span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+ .tutorial-layer{top:160px;right:8px;bottom:140px;width:min(190px,calc(50vw - 10px))}
+ .tutorial-card{padding:9px}.tutorial-card .eyebrow{font-size:8px;letter-spacing:1.5px;margin-bottom:6px}.tutorial-card .calibration-steps{gap:3px;margin-bottom:7px}.tutorial-card .calibration-steps span{padding:4px 5px;font-size:8px}.tutorial-art{width:100px;margin:auto}.tutorial-legend{font-size:7px;margin:6px 0}.tutorial-card h2{font-size:17px}.tutorial-card p{font-size:10px;line-height:1.45;margin:6px 0}.tutorial-card .fineprint{font-size:8px}.tutorial-card .primary{padding:9px 5px;font-size:11px;letter-spacing:1px}#stance-badge{font-size:15px;padding:3px 5px;right:4px}
+ .modal-layer{padding:12px}.welcome-card{width:min(490px,100%);padding:22px 20px 18px}.welcome-card h2{font-size:30px}.intro-copy{font-size:12px;line-height:1.55}.rules span+span{padding-left:10px}.rules b{font-size:19px}.howto{font-size:11px;line-height:1.8}
+ .difficulty-card{width:100%;padding:20px}.result-card,.settings-card,.compact-card{width:100%;padding:24px 20px}.final-score strong{font-size:80px}
+}
+
+@media(max-height:500px){
+ .topbar{top:8px}.brand{padding-top:6px;padding-bottom:6px}.target-icon{font-size:38px}h1{font-size:22px}h1 span{font-size:7px}
+ .timer{padding:5px 13px;gap:7px}.timer strong{font-size:26px}.clock-icon{font-size:26px}
+ .arrow-card{padding:7px 12px}.arrow-card strong{font-size:27px}
+ .scoreboard{top:91px;padding:7px 10px}.scoreboard strong{font-size:25px}
+ .location{top:88px}
+ .testcam{bottom:8px;width:150px;padding:6px}.cam-heading{font-size:7px;margin-bottom:5px}.cam-heading b{font-size:7px}.hand-status{font-size:7px;margin-top:5px}.cam-help{display:none}
+ .instructions{bottom:8px;padding:7px 10px}.instructions b{font-size:16px}.instructions p{font-size:8px;min-height:0;margin:4px 0 5px}
+ .corner-controls{bottom:8px}
+ .tutorial-layer{top:100px;right:12px;bottom:70px;width:280px}.tutorial-art{width:82px}.tutorial-card p{font-size:10px}
+ .modal-layer{align-items:flex-start;padding:8px 12px}.welcome-card,.difficulty-card,.compact-card,.result-card,.settings-card{max-height:calc(100vh - 16px)}
+}
+
+@media(max-width:350px){
+ .scoreboard{left:8px;min-width:146px;width:146px}.location{right:8px;width:146px;font-size:6px}.location i{font-size:7px}
+ .testcam{left:8px;width:104px}.instructions{left:120px;right:58px}.corner-controls{right:8px}
+}
