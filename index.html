@@ -2,71 +2,83 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Riverside Archery</title>
+<title>TAFE Balloon Discovery</title>
 <link rel="icon" href="data:,">
-<meta name="description" content="Draw, aim and release with your hands. A Unity 3D archery challenge by the river.">
+<meta name="description" content="Take a shot at your future. Pop study-area balloons and discover TAFE Queensland Coomera with this hands-on archery game.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main id="game" aria-label="Riverside Archery game">
+<main id="game" aria-label="TAFE study-area discovery archery game">
   <canvas id="unity-canvas" tabindex="-1" aria-label="Unity 3D archery range"></canvas>
   <div class="shade"></div>
   <header class="topbar">
-    <div class="brand"><span class="target-icon">◎<i>↗</i></span><div><small>RIVERSIDE SPORTS CLUB</small><h1>ARCHERY<span>FIND YOUR FOCUS</span></h1></div></div>
-    <div class="timer panel"><span class="clock-icon">◷</span><div><small id="time-label">TIME LEFT</small><strong id="time">01:00</strong></div></div>
+    <div class="brand" title="TAFE Queensland — Coomera campus"><img src="tafe-logo.png" alt="TAFE Queensland" width="92" height="92"><div class="brand-wordmark" aria-hidden="true"><span>COOMERA CAMPUS</span><strong>Aim for your future.</strong></div></div>
+    <div class="timer panel"><span class="clock-icon" aria-hidden="true">◷</span><div><small id="time-label">TIME LEFT</small><strong id="time">02:00</strong></div></div>
     <div class="arrow-card panel"><small>ARROWS REMAINING</small><div><strong id="arrows">5</strong><span id="arrow-total"> / 5</span><span id="arrow-icons">↗ ↗ ↗ ↗ ↗</span></div></div>
   </header>
-  <aside class="scoreboard panel"><span class="avatar">◉</span><div><small>YOUR SCORE</small><strong id="score">00</strong></div><div class="best"><small>BEST</small><b id="best">0</b></div></aside>
-  <div class="location"><span></span> BRISBANE RIVERSIDE <i id="range-status">EASY · CENTRE TARGET · 12 M</i></div>
+  <div class="location"><span></span> TAFE QUEENSLAND COOMERA <i id="range-status">DRIFTING BALLOONS · 12 M</i></div>
   <div id="reticle" hidden><i></i><b></b><span></span></div>
+  <div id="dwell-dot" hidden><i></i></div>
   <div id="shot-feedback" role="status" aria-live="polite"></div>
   <aside class="testcam panel" id="testcam">
     <div class="cam-heading"><span><i id="cam-dot"></i> TEST CAM</span><b id="camera-state">Not connected</b></div>
     <div id="camera-viewport"><video id="camera-video" autoplay muted playsinline></video><canvas id="camera-overlay"></canvas><div id="camera-placeholder"><span>✋</span>About 1 m from the camera<br><small>Keep both hands in view</small></div></div>
     <div class="hand-status"><span id="left-status"><i></i> LEFT · BOW</span><span id="right-status"><i></i> RIGHT · STRING</span></div>
-    <div class="cam-help" id="camera-hint">Both hands visible · Good light · About 1 m</div>
+    <div class="cam-help" id="camera-hint">LEFT = BOW · RIGHT = STRING · Both hands visible</div>
   </aside>
   <footer class="instructions panel"><div><b id="step-draw">Draw</b><span>•</span><b id="step-aim">Aim</b><span>•</span><b id="step-release">Release</b></div><p id="instruction">Left fist holds the bow. Right fist draws the string.</p><div class="draw-track"><i id="draw-fill"></i></div></footer>
-  <div class="corner-controls"><div id="tracking-pill" class="panel"><i></i><span>Waiting for hands</span></div><button id="settings-button" aria-label="Camera and calibration settings" title="Camera and calibration settings">⚙</button><button id="fullscreen" aria-label="Toggle fullscreen" title="Toggle fullscreen">⛶</button></div>
+  <div id="performance-pill" class="panel" hidden aria-live="polite">FPS <b id="perf-fps">—</b> · TRACK <b id="perf-track">—</b> · LATENCY <b id="perf-latency">—</b> · QUALITY <b id="perf-quality">—</b></div>
+  <div class="corner-controls"><div id="tracking-pill" class="panel"><i></i><span>Waiting for hands</span></div><button id="settings-button" aria-label="Camera and player settings" title="Camera and player settings">⚙</button><button id="fullscreen" aria-label="Toggle fullscreen" title="Toggle fullscreen">⛶</button></div>
   <section id="welcome" class="modal-layer">
     <div class="welcome-card panel">
-      <div class="eyebrow">YOUR HANDS. YOUR SHOT.</div>
-      <h2>Draw. Aim.<br><em>Make it count.</em></h2>
-      <p class="intro-copy">One target by the river. Learn the gesture, then choose the challenge that suits you.</p>
-      <div class="rules"><span><b>4</b> MODES</span><span><b>2</b> HANDS</span><span><b>1</b> TARGET</span></div>
-      <ol class="howto"><li><span>01</span> Bring two fists close together, keeping both visible.</li><li><span>02</span> Push the left forward. Draw the right beside your face.</li><li><span>03</span> Hold, aim with the left, then relax the right fingers.</li></ol>
+      <div class="welcome-story">
+      <div class="eyebrow">TAFE QUEENSLAND · COOMERA</div>
+      <div class="welcome-balloon" aria-hidden="true"><span>↗</span></div>
+      <h2>Take a shot.<br><em>Find your future.</em></h2>
+      <p class="intro-copy">A little curiosity goes a long way. Pop a balloon to discover a study area at TAFE Queensland.</p>
+      <div class="rules"><span><b>5</b> BALLOONS</span><span><b>2</b> HANDS</span><span><b>5</b> ARROWS</span></div>
+      </div>
+      <div class="welcome-actions">
+      <div class="eyebrow howto-heading">YOUR HANDS. YOUR SHOT.</div>
+      <ol class="howto"><li><span>01</span> Bring two fists close together, keeping both visible.</li><li><span>02</span> Face the camera. Extend LEFT and draw RIGHT beside your shoulder.</li><li><span>03</span> Hold, aim with the left, then relax the right fingers.</li></ol>
       <button id="start" class="primary" disabled>Loading game…</button>
+      <button id="fallback-start" class="secondary" type="button">Play with mouse / touch</button>
       <div class="loading-track"><i id="loading-fill"></i></div>
       <p id="load-status" class="fineprint">Preparing the 3D range</p>
       <p class="privacy">Camera images are processed only in your browser.</p>
+      </div>
     </div>
   </section>
-  <section id="difficulty" class="modal-layer" hidden><div class="difficulty-card panel">
-    <div class="eyebrow">CHOOSE YOUR CHALLENGE</div><h2>Select difficulty</h2>
-    <p class="difficulty-intro">Your camera is ready. You can change modes after every round.</p>
-    <div class="mode-grid">
-      <button class="mode-option training" data-mode="Training"><span class="mode-icon">◎</span><span><b>Training</b><small>STATIONARY TARGET</small></span><strong>120 SEC</strong><em>∞ ARROWS</em></button>
-      <button class="mode-option easy" data-mode="Easy"><span class="mode-icon">◉</span><span><b>Easy</b><small>STATIONARY TARGET</small></span><strong>120 SEC</strong><em>5 ARROWS</em></button>
-      <button class="mode-option medium" data-mode="Medium"><span class="mode-icon">↔</span><span><b>Medium</b><small>MOVING TARGET</small></span><strong>90 SEC</strong><em>5 ARROWS</em></button>
-      <button class="mode-option hard" data-mode="Hard"><span class="mode-icon">✦</span><span><b>Hard</b><small>MOVES · RESPAWNS ON HIT</small></span><strong>60 SEC</strong><em>5 ARROWS</em></button>
-    </div>
-    <p class="fineprint">Next: complete calibration, then bring your fists together to start.</p>
-  </div></section>
-  <section id="calibration" class="tutorial-layer" hidden><div class="tutorial-card panel">
-    <div class="eyebrow">LEARN YOUR SHOT</div>
-    <div class="calibration-steps" aria-label="Tutorial steps"><span data-stage="Stance">01</span><span data-stage="Hands">02</span><span data-stage="Draw">03</span><span data-stage="Return">04</span><span data-stage="Practice">05</span></div>
-    <div id="tutorial-art" class="tutorial-art" role="img" aria-label="Stand at an angle to the webcam"><span id="stance-badge">≈ 30°</span></div>
+  <section id="ready-panel" class="tutorial-layer" hidden><div class="tutorial-card panel">
+    <div class="eyebrow">STEP UP &amp; PLAY</div>
+    <svg class="front-camera-guide" viewBox="0 0 260 155" role="img" aria-label="Face the camera with two fists separated in front of your chest">
+      <rect x="90" y="7" width="80" height="32" rx="9" fill="#092e48" stroke="#4adbe7"/><circle cx="130" cy="23" r="9" fill="none" stroke="#4adbe7" stroke-width="3"/>
+      <path d="M105 46L58 138M155 46L202 138" fill="none" stroke="#4adbe7" stroke-dasharray="4 5" opacity=".5"/>
+      <circle cx="130" cy="66" r="18" fill="none" stroke="#fff" stroke-width="4"/>
+      <path d="M90 143V116Q90 91 115 90H145Q170 91 170 116V143" fill="none" stroke="#fff" stroke-width="4"/>
+      <rect x="92" y="107" width="24" height="28" rx="9" fill="#4adbe7"/><rect x="144" y="107" width="24" height="28" rx="9" fill="#ffc65a"/>
+      <path d="M122 122H138" stroke="#fff" stroke-width="2" stroke-dasharray="3 3"/>
+    </svg>
     <div class="tutorial-legend"><span>LEFT · BOW</span><span>RIGHT · STRING</span></div>
-    <h2 id="calibration-title">Turn about 30°</h2>
-    <p id="calibration-copy" aria-live="polite">Stand about 1 m from the camera. Turn slightly so both hands stay visible.</p>
-    <div class="calibration-track"><i id="calibration-fill"></i></div><strong id="countdown"></strong>
-    <button id="tutorial-ready" class="primary">I'm ready</button>
-    <p id="tutorial-note" class="fineprint">Unlimited practice · No timer · No arrows used</p>
+    <h2 id="ready-title">Face the camera</h2>
+    <p id="ready-copy" aria-live="polite">Stand on the floor mark, about 1 m away. Hold two fists near your chest with a small visible gap.</p>
+    <p id="ready-hint" class="tutorial-hint">Starts automatically. Then extend LEFT, draw RIGHT beside your shoulder, hold and release.</p>
+    <div class="calibration-track"><i id="ready-fill"></i></div><strong id="countdown"></strong>
+    <p class="fineprint">No calibration · Your first shot counts</p>
   </div></section>
-  <section id="result" class="modal-layer" hidden><div class="result-card panel"><div class="eyebrow"><span id="result-mode">EASY</span> COMPLETE</div><h2>Every arrow counts.</h2><div class="final-score"><strong id="final-score">0</strong><span id="final-total">/ 50</span></div><div class="result-stats"><div><small>HITS</small><b id="final-hits">0 / 5</b></div><div><small>MODE BEST</small><b id="final-best">0</b></div></div><button id="again" class="primary">Choose next mode <span>↗</span></button><p class="fineprint">Your camera and calibration are ready to reuse.</p></div></section>
-  <section id="settings" class="modal-layer" hidden><div class="settings-card panel"><button id="close-settings" class="close" aria-label="Close settings">×</button><div class="eyebrow">CAMERA SETUP</div><h2>Camera &amp; stance</h2><label for="camera-select">Choose a camera</label><select id="camera-select"><option value="">System default camera</option></select><label class="check"><input id="swap-hands" type="checkbox"> Swap left and right labels</label><p class="fineprint">Use only if the preview labels are reversed. Reconnect after choosing a different camera.</p><button id="retry-camera" class="primary">Connect / reconnect camera</button><button id="recalibrate" class="secondary" disabled>Recalibrate stance</button><p class="fineprint">Recalibrate after moving yourself or the camera. Your current score and remaining time are kept.</p><p id="camera-error" role="alert"></p></div></section>
+  <section id="about" class="modal-layer" hidden><div class="about-card panel">
+    <div class="about-heading"><div class="tafe-about-logo"><img src="tafe-logo.png" alt="TAFE Queensland" width="76" height="76"></div><span class="discovery-badge">A NEW POSSIBILITY</span></div>
+    <div class="eyebrow" id="about-tag">STUDY AREA · TAFE QUEENSLAND COOMERA</div>
+    <h2 id="about-title">About</h2>
+    <div id="about-body" class="about-body" aria-live="polite"></div>
+    <div id="about-progress" class="about-progress" aria-live="polite">Study areas discovered: 0 / 5</div>
+    <button id="about-close" class="primary about-close-btn">CLOSE — CONTINUE <span>↗</span></button>
+    <p class="fineprint">The round resumes after you close this card.</p>
+  </div></section>
+  <section id="result" class="modal-layer" hidden><div class="result-card panel"><div class="eyebrow">ROUND COMPLETE</div><h2>Keep your<br><em>curiosity going.</em></h2><div class="final-score"><strong id="final-score">0</strong><span class="result-caption">BALLOONS POPPED</span></div><p id="result-progress" class="fineprint">Study areas discovered: 0 / 5</p><button id="again" class="primary">Explore again <span>↗</span></button><p class="fineprint">Bring your fists together to play again, or let the next player step up.</p></div></section>
+  <section id="settings" class="modal-layer" hidden><div class="settings-card panel"><button id="close-settings" class="close" aria-label="Close settings">×</button><div class="eyebrow">CAMERA SETUP</div><h2>Camera &amp; player</h2><label for="camera-select">Choose a camera</label><select id="camera-select"><option value="">System default camera</option></select><label class="check"><input id="swap-hands" type="checkbox"> Swap left and right labels</label><p class="fineprint">Use only if the preview labels are reversed. Reconnect after choosing a different camera.</p><div class="settings-divider"></div><div class="eyebrow settings-eyebrow">SOUND</div><label class="check"><input id="sound-enabled" type="checkbox" checked> Sound effects</label><label class="volume-control" for="sound-volume"><span>Volume</span><input id="sound-volume" type="range" min="0" max="1" step=".05" value=".7"><output id="sound-volume-value">70%</output></label><button id="retry-camera" class="primary">Connect / reconnect camera</button><button id="reset-tracking" class="secondary" disabled>Reset hand tracking</button><p class="fineprint">Keeps your remaining arrows and time.</p><button id="next-player" class="secondary" disabled>Next player · New round</button><p class="fineprint">Face the camera with both hands visible. The station resets when both hands leave view for 5 seconds.</p><div class="rendering-status"><span class="eyebrow">PERFORMANCE</span><strong id="acceleration-status" aria-live="polite">Checking graphics…</strong><p id="acceleration-hint" class="fineprint">Quality adjusts automatically for smooth play.</p></div><p id="camera-error" role="alert"></p></div></section>
   <div id="paused-banner" class="panel" hidden role="status">Paused. Bring your fists together and keep them visible.</div>
-  <div id="qa-controls" class="panel" hidden><strong>QA · Synthetic hands</strong><button id="qa-start">Start synthetic session</button><button id="qa-grip">Grip variation: OFF</button><button id="qa-neutral">Fists together</button><button id="qa-draw">Draw</button><button id="qa-release">Relax fingers</button><button id="qa-drop">Hide hands</button><button id="qa-time">Time up</button><small>Click the range to move the synthetic left fist.</small></div>
+  <div id="qa-controls" class="panel" hidden><strong>QA · Synthetic hands</strong><button id="qa-start">Start synthetic session</button><button id="qa-grip">Grip variation: OFF</button><button id="qa-neutral">Fists together</button><button id="qa-draw">Draw</button><button id="qa-release">Relax fingers</button><button id="qa-drop">Hide hands</button><button id="qa-dwell">Dwell at cursor: OFF</button><button id="qa-time">Time up</button><small>Click the range to move the synthetic left fist.</small></div>
 </main>
 <script src="Build/WebGL.loader.js"></script>
 <script type="module" src="app.mjs"></script>
@@ -77,8 +89,8 @@ window.archeryUnityConfig={
  codeUrl:"Build/WebGL.wasm.unityweb",
  streamingAssetsUrl:"StreamingAssets",
  companyName:"Riverside Sports",
- productName:"Riverside Archery",
- productVersion:"1.4.1"
+ productName:"TAFE Balloon Discovery",
+ productVersion:"1.9.0"
 };
 window.dispatchEvent(new Event("archery-config"));
 </script>
